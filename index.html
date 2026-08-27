@@ -6,7 +6,7 @@
   <title>Emissor de Certificados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Bodoni+Moda:opsz,wght@6..96,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,7 +15,7 @@
     <header class="header">
       <div>
         <h1>Emissor de Certificados</h1>
-        <p class="sub">Base atualizada a partir do PDF original. Importe participantes, revise a lista e gere certificados em PDF ou PNG com qualidade melhor.</p>
+        <p class="sub">Base refeita a partir do PDF original para manter o certificado nítido. Importe participantes, revise a lista e gere PDF ou PNG.</p>
       </div>
       <div id="mailStatus" class="badge">Verificando e-mail mestre…</div>
     </header>
@@ -49,62 +49,32 @@
 
     <section class="card section">
       <div class="sectionHead">
-        <div>
-          <h2>3. Revisar lista</h2>
-          <p class="muted">Duplicados são bloqueados automaticamente pelo nome.</p>
-        </div>
+        <div><h2>3. Revisar lista</h2><p class="muted">Duplicados são bloqueados automaticamente pelo nome.</p></div>
         <input id="search" class="search" placeholder="Buscar nome ou e-mail" />
       </div>
-
       <div class="stats">
         <div><b id="total">0</b><span>participantes</span></div>
         <div><b id="validEmails">0</b><span>com e-mail válido</span></div>
         <div><b id="selected">0</b><span>selecionados</span></div>
       </div>
-
-      <div class="tableWrap">
-        <table>
-          <thead>
-            <tr><th></th><th>Nome</th><th>E-mail</th><th>Status</th><th></th></tr>
-          </thead>
-          <tbody id="rows">
-            <tr><td colspan="5" class="empty">Importe uma planilha para começar.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="tableWrap"><table><thead><tr><th></th><th>Nome</th><th>E-mail</th><th>Status</th><th></th></tr></thead><tbody id="rows"><tr><td colspan="5" class="empty">Importe uma planilha para começar.</td></tr></tbody></table></div>
     </section>
 
     <section class="card section">
       <h2>4. Emitir certificados</h2>
-      <div class="actions">
-        <button id="pdfZip" class="btn primary" disabled>Baixar ZIP em PDF</button>
-        <button id="pngZip" class="btn secondary" disabled>Baixar ZIP em PNG</button>
-      </div>
+      <div class="actions"><button id="pdfZip" class="btn primary" disabled>Baixar ZIP em PDF</button><button id="pngZip" class="btn secondary" disabled>Baixar ZIP em PNG</button></div>
       <div class="progress"><div id="progressBar"></div></div>
-      <p id="generationMsg" class="muted">Aguardando participantes.</p>
+      <p id="generationMsg" class="muted">Carregando modelo do certificado…</p>
     </section>
 
     <section class="card section">
-      <div class="sectionHead">
-        <div>
-          <h2>5. Enviar por e-mail</h2>
-          <p class="muted">Cada pessoa recebe somente o próprio certificado.</p>
-        </div>
-      </div>
-      <div class="emailFields">
-        <label>Assunto<input id="subject" value="Seu certificado - Casa da Inovação" /></label>
-        <label>Mensagem<textarea id="message">Segue em anexo o seu certificado.</textarea></label>
-      </div>
-      <div class="actions">
-        <button id="selectAll" class="btn ghost">Selecionar todos com e-mail</button>
-        <button id="unselectAll" class="btn ghost">Desmarcar todos</button>
-        <button id="send" class="btn primary" disabled>Enviar selecionados</button>
-      </div>
+      <div class="sectionHead"><div><h2>5. Enviar por e-mail</h2><p class="muted">Cada pessoa recebe somente o próprio certificado.</p></div></div>
+      <div class="emailFields"><label>Assunto<input id="subject" value="Seu certificado - Casa da Inovação" /></label><label>Mensagem<textarea id="message">Segue em anexo o seu certificado.</textarea></label></div>
+      <div class="actions"><button id="selectAll" class="btn ghost">Selecionar todos com e-mail</button><button id="unselectAll" class="btn ghost">Desmarcar todos</button><button id="send" class="btn primary" disabled>Enviar selecionados</button></div>
       <div class="progress"><div id="emailProgress"></div></div>
       <p id="emailMsg" class="muted">Configure o e-mail mestre na Vercel para habilitar o envio.</p>
     </section>
   </main>
-
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
