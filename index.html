@@ -1,86 +1,86 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Emissor de Certificados</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Bodoni+Moda:opsz,wght@6..96,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="topbar"></div>
-  <main class="wrap">
-    <header class="header">
-      <div>
-        <h1>Emissor de Certificados</h1>
-        <p class="sub">Base refeita a partir do PDF original para manter o certificado nítido. Importe participantes, revise a lista e gere PDF ou PNG.</p>
-      </div>
-      <div id="mailStatus" class="badge">Verificando e-mail mestre…</div>
-    </header>
+<div class="topbar"></div>
+<main class="wrap">
+  <header class="header">
+    <div>
+      <h1>Emissor de Certificados</h1>
+      <p class="sub">Adicione os nomes e gere os certificados em PDF. Sem e-mail, sem cadastro e sem etapas desnecessárias.</p>
+    </div>
+    <div class="badge ok">PDF original</div>
+  </header>
 
-    <section class="grid">
-      <div class="card">
-        <h2>1. Importar participantes</h2>
-        <label class="drop" for="excelInput">
-          <strong>Selecione sua planilha</strong>
-          <span>.xlsx, .xls ou .csv • colunas Nome e Email</span>
-        </label>
-        <input id="excelInput" type="file" accept=".xlsx,.xls,.csv" hidden>
-        <div class="divider">ou</div>
-        <textarea id="manual" placeholder="João da Silva; joao@email.com&#10;Maria Souza; maria@email.com"></textarea>
-        <div class="actions">
-          <button id="addManual" class="btn secondary">Adicionar nomes</button>
-          <button id="clear" class="btn ghost">Limpar lista</button>
-        </div>
-        <div id="feedback" class="feedback neutral">Nenhum participante carregado ainda.</div>
+  <section class="grid">
+    <div class="card">
+      <h2>1. Adicionar participantes</h2>
+      <label class="drop" for="excelInput">
+        <strong>Selecionar planilha</strong>
+        <span>.xlsx, .xls ou .csv • precisa apenas da coluna Nome</span>
+      </label>
+      <input id="excelInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+      <div class="divider">ou</div>
+      <textarea id="manual" placeholder="João da Silva&#10;Maria Souza&#10;Carlos Oliveira"></textarea>
+      <div class="actions">
+        <button id="addManual" class="btn secondary">Adicionar nomes</button>
+        <button id="clear" class="btn ghost">Limpar lista</button>
       </div>
+      <div id="feedback" class="feedback neutral">Nenhum participante carregado ainda.</div>
+    </div>
 
-      <div class="card">
-        <h2>2. Prévia do certificado</h2>
-        <div class="preview"><canvas id="preview" width="3369" height="2382"></canvas></div>
-        <div class="previewMeta">
-          <span id="previewName">Nome do aluno</span>
+    <div class="card">
+      <h2>2. Prévia</h2>
+      <div class="preview"><canvas id="preview" width="3369" height="2382"></canvas></div>
+      <div class="previewMeta">
+        <span id="previewName">Nome do aluno</span>
+        <div class="actions" style="margin-top:0">
+          <button id="prevPreview" class="btn ghost small">Anterior</button>
           <button id="nextPreview" class="btn ghost small">Próximo</button>
         </div>
       </div>
-    </section>
+      <div class="actions"><button id="downloadCurrent" class="btn primary" disabled>Baixar PDF desta prévia</button></div>
+    </div>
+  </section>
 
-    <section class="card section">
-      <div class="sectionHead">
-        <div><h2>3. Revisar lista</h2><p class="muted">Duplicados são bloqueados automaticamente pelo nome.</p></div>
-        <input id="search" class="search" placeholder="Buscar nome ou e-mail" />
-      </div>
-      <div class="stats">
-        <div><b id="total">0</b><span>participantes</span></div>
-        <div><b id="validEmails">0</b><span>com e-mail válido</span></div>
-        <div><b id="selected">0</b><span>selecionados</span></div>
-      </div>
-      <div class="tableWrap"><table><thead><tr><th></th><th>Nome</th><th>E-mail</th><th>Status</th><th></th></tr></thead><tbody id="rows"><tr><td colspan="5" class="empty">Importe uma planilha para começar.</td></tr></tbody></table></div>
-    </section>
+  <section class="card section">
+    <div class="sectionHead">
+      <div><h2>3. Revisar nomes</h2><p class="muted">Nomes repetidos são ignorados automaticamente.</p></div>
+      <input id="search" class="search" placeholder="Buscar nome">
+    </div>
+    <div class="stats">
+      <div><b id="total">0</b><span>participantes</span></div>
+      <div><b id="unique">0</b><span>nomes únicos</span></div>
+      <div><b id="ready">0</b><span>prontos para emitir</span></div>
+    </div>
+    <div class="tableWrap">
+      <table>
+        <thead><tr><th>#</th><th>Nome</th><th>Ações</th></tr></thead>
+        <tbody id="rows"><tr><td colspan="3" class="empty">Importe uma planilha ou adicione nomes para começar.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
 
-    <section class="card section">
-      <h2>4. Emitir certificados</h2>
-      <div class="actions"><button id="pdfZip" class="btn primary" disabled>Baixar ZIP em PDF</button><button id="pngZip" class="btn secondary" disabled>Baixar ZIP em PNG</button></div>
-      <div class="progress"><div id="progressBar"></div></div>
-      <p id="generationMsg" class="muted">Carregando modelo do certificado…</p>
-    </section>
-
-    <section class="card section">
-      <div class="sectionHead"><div><h2>5. Enviar por e-mail</h2><p class="muted">Cada pessoa recebe somente o próprio certificado.</p></div></div>
-      <div class="emailFields"><label>Assunto<input id="subject" value="Seu certificado - Casa da Inovação" /></label><label>Mensagem<textarea id="message">Segue em anexo o seu certificado.</textarea></label></div>
-      <div class="actions"><button id="selectAll" class="btn ghost">Selecionar todos com e-mail</button><button id="unselectAll" class="btn ghost">Desmarcar todos</button><button id="send" class="btn primary" disabled>Enviar selecionados</button></div>
-      <div class="progress"><div id="emailProgress"></div></div>
-      <p id="emailMsg" class="muted">Configure o e-mail mestre na Vercel para habilitar o envio.</p>
-    </section>
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
-  <script src="script-1.js"></script>
-  <script src="script-2.js"></script>
-  <script src="script-3.js"></script>
+  <section class="card section">
+    <h2>4. Emitir PDFs</h2>
+    <div class="actions"><button id="pdfZip" class="btn primary" disabled>Baixar todos em ZIP</button></div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <p id="generationMsg" class="muted">Carregando certificado-base…</p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
